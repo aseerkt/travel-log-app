@@ -6,23 +6,31 @@ const helmet = require('helmet'); // protects some headers from exposure
 const cors = require('cors'); // access to our server from external server - Cross Origin Resource Sharing Header
 
 require('dotenv').config();
+
 const middlewares = require('./middlewares');
+const logs = require('./api/logs');
 
 const app = express();
 
-mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true});
+mongoose.connect(process.env.DATABASE_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.use(morgan('common'));
 app.use(helmet());
 app.use(cors({
   origin: process.env.CORS_ORIGIN // only request coming from this can access our backend server at port 1337
 }));
+app.use(express.json()); // express json body parser // req.body
 
 app.get('/', (req, res) => {
   res.json({
     message: 'Hello World!',
   });
 });
+
+app.use('/api/logs', logs);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
