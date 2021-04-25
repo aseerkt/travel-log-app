@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose, { Document } from 'mongoose';
+import User, { IUser } from './User';
 
 // * Title - Text
 // * Description - Text
@@ -12,12 +13,25 @@ const mongoose = require('mongoose');
 // * Created At - DateTime
 // * Updated At - DateTime
 
+interface ILogEntry extends Document {
+  title: string;
+  description: string;
+  comments: string;
+  rating: number;
+  latitude: number;
+  longitude: number;
+  visitDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  user: IUser;
+}
+
 const requiredNumber = {
   type: Number,
   required: true,
 };
 
-const logEntrySchema = new mongoose.Schema(
+const logEntrySchema = new mongoose.Schema<ILogEntry>(
   {
     title: {
       type: String,
@@ -42,8 +56,13 @@ const logEntrySchema = new mongoose.Schema(
       max: 180,
     },
     visitDate: {
-      required: true,
       type: Date,
+      required: true,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: User,
+      required: true,
     },
   },
   {
@@ -51,6 +70,6 @@ const logEntrySchema = new mongoose.Schema(
   }
 );
 
-const logEntry = mongoose.model('logEntry', logEntrySchema);
+const LogEntry = mongoose.model<ILogEntry>('LogEntry', logEntrySchema);
 
-module.exports = logEntry;
+export default LogEntry;
