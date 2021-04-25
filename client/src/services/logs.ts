@@ -1,3 +1,5 @@
+import { LogEntry } from '../types/LogEntry';
+
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:1337';
 
 export const listLogEntries = async () => {
@@ -5,7 +7,7 @@ export const listLogEntries = async () => {
   return res.json();
 };
 
-export const addLogEntry = async (logData) => {
+export const addLogEntry = async (logData: LogEntry) => {
   const res = await fetch(`${API_URL}/api/logs`, {
     method: 'POST',
     body: JSON.stringify(logData),

@@ -1,8 +1,18 @@
-import PropTyes from 'prop-types';
 import { useState } from 'react';
-import { addLogEntry } from './API';
+import { addLogEntry } from '../services/logs';
 
-const AddLogEntryForm = ({ location: { latitude, longitude }, onClose }) => {
+type AddLogEntryFormProps = {
+  location: {
+    latitude: number;
+    longitude: number;
+  };
+  onClose: Function;
+};
+
+const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
+  location: { latitude, longitude },
+  onClose,
+}) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -12,11 +22,13 @@ const AddLogEntryForm = ({ location: { latitude, longitude }, onClose }) => {
     visitDate: '',
   });
 
-  const onChange = (e) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -50,7 +62,7 @@ const AddLogEntryForm = ({ location: { latitude, longitude }, onClose }) => {
           id='desc'
           value={description}
           onChange={onChange}
-          rows='4'
+          rows={4}
         ></textarea>
       </div>
       <div className='form-control'>
@@ -110,11 +122,6 @@ const AddLogEntryForm = ({ location: { latitude, longitude }, onClose }) => {
       </button>
     </form>
   );
-};
-
-AddLogEntryForm.propTypes = {
-  location: PropTyes.object.isRequired,
-  onClose: PropTyes.func.isRequired,
 };
 
 export default AddLogEntryForm;

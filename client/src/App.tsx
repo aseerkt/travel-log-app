@@ -1,26 +1,17 @@
 import { useEffect, useState } from 'react';
-import ReactMapGL, { Marker, Popup } from 'react-map-gl';
-import AddLogEntryForm from './AddLogEntryForm';
-import { listLogEntries } from './API';
-import Header from './Header';
-
-/**
- * JSDoc
- * Log Entry Definitions
- @typedef {Object} LogEntry
- @property {string} _id
- @property {number} latitude
- @property {number} longitude
- @property {string} title
- @property {string} comments
- @property {string} description
- */
+import ReactMapGL, { MapEvent, Marker, Popup } from 'react-map-gl';
+import AddLogEntryForm from './components/AddLogEntryForm';
+import { listLogEntries } from './services/logs';
+import Header from './components/Header';
+import { LogEntryDoc } from './types/LogEntry';
 
 const App = () => {
-  /** @type {[LogEntry[], any]} */
-  const [logEntries, SetLogEntries] = useState([]);
-  const [showPopup, setShowPopup] = useState({});
-  const [addEventLocation, setAddEventLocation] = useState(null);
+  const [logEntries, SetLogEntries] = useState<LogEntryDoc[]>([]);
+  const [showPopup, setShowPopup] = useState<Record<string, boolean>>({});
+  const [addEventLocation, setAddEventLocation] = useState<{
+    latitude?: number;
+    longitude?: number;
+  } | null>(null);
   const [viewport, setViewport] = useState({
     width: '100vw',
     height: 'calc(100vh - 60px)',
@@ -40,7 +31,7 @@ const App = () => {
     setEntries();
   }, []);
 
-  const addNewLocation = (event) => {
+  const addNewLocation = (event: MapEvent) => {
     const [longitude, latitude] = event.lngLat;
     setShowPopup({});
     setAddEventLocation({
@@ -59,7 +50,7 @@ const App = () => {
         }}
         mapStyle='mapbox://styles/thecjreynolds/ck117fnjy0ff61cnsclwimyay'
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-        onViewportChange={(nextViewport) => setViewport(nextViewport)}
+        onViewportChange={(nextViewport: any) => setViewport(nextViewport)}
         onDblClick={addNewLocation}
       >
         {logEntries.map((entry) => (
@@ -116,8 +107,8 @@ const App = () => {
         {addEventLocation && (
           <>
             <Marker
-              latitude={addEventLocation.latitude}
-              longitude={addEventLocation.longitude}
+              latitude={addEventLocation.latitude!}
+              longitude={addEventLocation.longitude!}
             >
               <div>
                 <svg
@@ -139,8 +130,8 @@ const App = () => {
               </div>
             </Marker>
             <Popup
-              latitude={addEventLocation.latitude}
-              longitude={addEventLocation.longitude}
+              latitude={addEventLocation.latitude!}
+              longitude={addEventLocation.longitude!}
               closeButton={true}
               closeOnClick={false}
               onClose={() => setAddEventLocation(null)}
@@ -155,8 +146,8 @@ const App = () => {
                     setEntries();
                   }}
                   location={{
-                    latitude: addEventLocation.latitude,
-                    longitude: addEventLocation.longitude,
+                    latitude: addEventLocation.latitude!,
+                    longitude: addEventLocation.longitude!,
                   }}
                 />
               </div>
