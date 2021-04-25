@@ -20,7 +20,8 @@ export const addLog = async (
   next: NextFunction
 ) => {
   try {
-    const newLog = new LogEntry(req.body);
+    const userId = res.locals.userId;
+    const newLog = new LogEntry({ ...req.body, user: userId });
     const createdEntry = await newLog.save();
     return res.json(createdEntry);
   } catch (error) {
