@@ -1,10 +1,8 @@
+import { API_URL } from '../config';
 import { LogEntry } from '../types/LogEntry';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:1337';
-
 export const listLogEntries = async () => {
-  const res = await fetch(`${API_URL}/api/logs`);
-  return res.json();
+  return fetch(`${API_URL}/api/logs`).then((res) => res.json());
 };
 
 export const addLogEntry = async (logData: LogEntry) => {
@@ -15,5 +13,5 @@ export const addLogEntry = async (logData: LogEntry) => {
       'Content-Type': 'application/json',
     },
   });
-  return { status: res.status, data: await res.json() };
+  return await res.json();
 };

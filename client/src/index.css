@@ -11,22 +11,13 @@ body {
   width: 100vw;
 }
 
-header {
-  padding-left: 2rem;
-  position: sticky;
-  top: 0;
+ul {
+  list-style: none;
   display: flex;
-  align-items: center;
-  width: 100%;
-  height: 60px;
-  color: #f4f4f4;
-  background-color: #222;
-  z-index: 20;
-  vertical-align: middle;
 }
 
-header h1 {
-  margin: 0;
+a {
+  color: #fff;
 }
 
 .marker-svg {
@@ -52,8 +43,29 @@ input,
 textarea {
   display: block;
   width: 100%;
-  padding: 0.3rem;
+  padding: 0.5rem;
   font: inherit;
+  border: 0;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+button {
+  display: inline-block;
+  color: #fff;
+  background-color: #333;
+  border: none;
+  padding: 0.4rem 1.6rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
 }
 
 @media (max-width: 375px) {

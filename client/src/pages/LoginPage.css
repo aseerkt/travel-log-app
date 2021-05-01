@@ -1,0 +1,8 @@
+.topError {
+  background-color: #f5a0a0;
+  color: #f00;
+  font-weight: bold;
+  padding: 1rem;
+  display: block;
+  margin-bottom: 0.7rem;
+}
