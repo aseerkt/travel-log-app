@@ -1,11 +1,11 @@
-import { createContext, useContext, useEffect, useReducer } from 'react';
-import { API_URL } from '../config';
+import { createContext, useContext, useReducer } from 'react';
+import { useQuery } from 'react-query';
+import { loadUser } from '../services/users';
 import { UserDoc } from '../types/User';
 
 interface State {
   authenticated: boolean;
   user: UserDoc | null;
-  loading: boolean;
 }
 
 interface Action {
@@ -16,7 +16,6 @@ interface Action {
 const StateContext = createContext<State>({
   authenticated: false,
   user: null,
-  loading: true,
 });
 
 const DispatchContext = createContext((type: string, payload: any) => {});
@@ -31,8 +30,6 @@ const reducer = (state: State, { type, payload }: Action) => {
       };
     case 'LOGOUT':
       return { ...state, authenticated: false, user: null };
-    case 'STOP_LOADING':
-      return { ...state, loading: false };
     default:
       throw new Error(`Unknow action type: ${type}`);
   }
@@ -42,33 +39,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, defaultDispatch] = useReducer(reducer, {
     user: null,
     authenticated: false,
-    loading: true,
   });
 
   const dispatch = (type: string, payload?: any) =>
     defaultDispatch({ type, payload });
 
-  useEffect(() => {
-    async function loadUser() {
-      try {
-        const jwt = localStorage.getItem('jwt');
-        const res = await fetch(`${API_URL}/api/users/me`, {
-          headers: {
-            authorization: `Bearer ${jwt}`,
-          },
-        }).then((result) => result.json());
-        if (!res.ok) {
-          throw Error(res.message);
-        }
-        dispatch('LOGIN', res.user);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        dispatch('STOP_LOADING');
-      }
-    }
-    loadUser();
-  }, []);
+  const { isLoading } = useQuery('me', loadUser);
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <DispatchContext.Provider value={dispatch}>

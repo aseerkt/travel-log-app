@@ -1,22 +1,42 @@
+import { useQuery, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
+import { loadUser } from '../services/users';
 import './Header.css';
 
 const Header = () => {
+  const queryClient = useQueryClient();
+  const { data } = useQuery('me', loadUser);
+
   return (
     <header>
       <div className='container'>
-        <Link to='/'>
-          <h1>Travel Log</h1>
+        <Link className='logo' to='/'>
+          <h1>travel-log.</h1>
         </Link>
         <nav>
-          <ul>
-            <li>
-              <Link to='/login'>Login</Link>
-            </li>
-            <li>
-              <Link to='/register'>Register</Link>
-            </li>
-          </ul>
+          {data && !data.user ? (
+            <ul>
+              <li>
+                <Link to='/login'>Login</Link>
+              </li>
+              <li>
+                <Link to='/register'>Register</Link>
+              </li>
+            </ul>
+          ) : (
+            <ul>
+              <li>
+                <a
+                  onClick={() => {
+                    localStorage.removeItem('jwt');
+                    queryClient.invalidateQueries('me');
+                  }}
+                >
+                  Logout
+                </a>
+              </li>
+            </ul>
+          )}
         </nav>
       </div>
     </header>

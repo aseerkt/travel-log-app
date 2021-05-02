@@ -23,6 +23,10 @@ header .container {
   padding: 20px;
 }
 
+header .logo:hover {
+  opacity: 0.8;
+}
+
 header h1 {
   margin: 0;
 }
@@ -32,6 +36,7 @@ header ul {
 }
 
 header ul li a {
+  cursor: pointer;
   margin-left: 2rem;
   text-decoration: none;
 }

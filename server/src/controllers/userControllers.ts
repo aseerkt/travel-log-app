@@ -24,8 +24,9 @@ export const getCurrentUser = async (
 ) => {
   try {
     const { userId } = res.locals;
-    const user = await User.findById(userId);
-    return { user };
+    const user = await User.findById(userId).select('-password');
+    console.log('user', user);
+    return res.json({ user });
   } catch (err) {
     console.log(err);
     return next(err);

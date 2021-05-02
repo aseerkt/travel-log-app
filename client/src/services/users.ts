@@ -1,4 +1,5 @@
 import { API_URL } from '../config';
+import getConfig from '../utils/getConfig';
 
 type LoginData = {
   username: string;
@@ -29,3 +30,15 @@ export const registerUser = async (registerData: RegisterData) => {
     body: JSON.stringify(registerData),
   }).then((result) => result.json());
 };
+
+export async function loadUser() {
+  const res = await fetch(`${API_URL}/api/users/me`, {
+    headers: {
+      ...getConfig(),
+    },
+  });
+  if (!res.ok) {
+    throw Error((await res.json()).message);
+  }
+  return res.json();
+}

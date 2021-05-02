@@ -1,6 +1,6 @@
 import { Form, Formik } from 'formik';
 import { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import FormWrapper from '../components/FormWrapper';
 import InputField from '../components/InputField';
@@ -9,6 +9,7 @@ import { loginUser } from '../services/users';
 import './LoginPage.css';
 
 const LoginPage = () => {
+  const queryClient = useQueryClient();
   const { mutateAsync } = useMutation(loginUser);
   const [errMsg, setErrMsg] = useState('');
   const dispatch = useAuthDispatch();
@@ -29,6 +30,7 @@ const LoginPage = () => {
           if (user && jwt) {
             dispatch('LOGIN', user);
             localStorage.setItem('jwt', jwt);
+            await queryClient.invalidateQueries('me');
             history.push('/');
           }
         }}

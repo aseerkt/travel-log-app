@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import MapPage from './pages/MapPage';
 import RegisterPage from './pages/RegisterPage';
 import { AuthProvider } from './context/AuthContext';
+import PrivateRoute from './PrivateRoute';
 
 const queryClient = new QueryClient();
 
@@ -16,7 +17,7 @@ const App = () => {
         <AuthProvider>
           <Layout>
             <Switch>
-              <Route exact path='/' component={MapPage} />
+              <PrivateRoute exact path='/' component={MapPage} />
               <Route exact path='/login' component={LoginPage} />
               <Route exact path='/register' component={RegisterPage} />
             </Switch>

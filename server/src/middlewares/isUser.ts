@@ -4,8 +4,10 @@ import { verifyToken } from '../utils/tokenHandler';
 const isUser = (req: Request, res: Response, next: NextFunction) => {
   try {
     const authError = new Error('Not Authenticated');
-    const token = req.headers.authorization?.split('Bearer ')[1] || undefined;
+    const authHeader = req.headers.authorization;
+    const token = authHeader ? authHeader.split('r ')[1] : '';
     if (!token) {
+      console.log('no token');
       throw authError;
     }
     const { userId }: any = verifyToken(token);

@@ -43,6 +43,13 @@ const MapPage = () => {
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onViewportChange={(nextViewport: any) => setViewport(nextViewport)}
       onDblClick={addNewLocation}
+      onResize={() => {
+        setViewport({
+          ...viewport,
+          width: '100vw',
+          height: 'calc(100vh - 60px)',
+        });
+      }}
     >
       {logEntries &&
         logEntries.map((entry) => (
@@ -137,7 +144,7 @@ const MapPage = () => {
               <h3>Add Event Here</h3>
               <AddLogEntryForm
                 onClose={() => {
-                  setAddEventLocation({});
+                  setAddEventLocation(null);
                 }}
                 location={{
                   latitude: addEventLocation.latitude!,

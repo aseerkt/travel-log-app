@@ -1,13 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
 import LogEntry from '../models/LogEntry';
+import returnFormErrors from '../utils/resMongoErrors';
 
-export const fetchAllLogs = async (
+export const fetchMyLogs = async (
   _req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const entries = await LogEntry.find();
+    const { userId } = res.locals;
+    const entries = await LogEntry.find({ user: userId });
     return res.json(entries);
   } catch (error) {
     return next(error);
@@ -26,9 +28,7 @@ export const addLog = async (
     return res.json(createdEntry);
   } catch (error) {
     console.log(error.name);
-    if (error.name === 'ValidationError') {
-      res.status(422); // Unprocessable Entity
-    }
+    returnFormErrors(res, error);
     return next(error);
   }
 };

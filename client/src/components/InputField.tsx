@@ -1,7 +1,7 @@
-import { FieldHookConfig, useField } from 'formik';
+import { useField } from 'formik';
 import './InputField.css';
 
-type InputFieldProps = FieldHookConfig<''> & {
+type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   name: string;
   textarea?: boolean;
@@ -16,11 +16,12 @@ const InputField: React.FC<InputFieldProps> = ({
   const [field, { error, touched }] = useField(props);
   const propsToSpread = {
     id: props.id,
-    key: props.key,
     type: props.type,
     placeholder: props.placeholder,
     className: props.className,
     autoComplete: props.autoComplete,
+    min: props.min,
+    max: props.max,
   };
 
   return (
@@ -29,9 +30,14 @@ const InputField: React.FC<InputFieldProps> = ({
         {label}
       </label>
       {textarea ? (
-        <textarea rows={4} {...propsToSpread} {...field}></textarea>
+        <textarea
+          rows={4}
+          {...propsToSpread}
+          id={field.name}
+          {...field}
+        ></textarea>
       ) : (
-        <input {...propsToSpread} {...field} />
+        <input id={field.name} {...propsToSpread} {...field} />
       )}
       <small></small>
       {touched && error && <small className='errorText'>{error}</small>}
