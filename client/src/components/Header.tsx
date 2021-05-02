@@ -27,6 +27,7 @@ const Header = () => {
             <ul>
               <li>
                 <a
+                  href='#'
                   onClick={() => {
                     localStorage.removeItem('jwt');
                     queryClient.invalidateQueries('me');
