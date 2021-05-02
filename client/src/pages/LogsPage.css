@@ -1,0 +1,52 @@
+.public-logs-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 70% 30%;
+  gap: 1rem;
+}
+
+.log-article {
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 12px 12px 16px 0 rgba(0, 0, 0, 0.25),
+    -8px -8px 12px 0 rgba(255, 255, 255, 0.3);
+  margin-bottom: 2rem;
+  min-height: 10rem;
+}
+
+.log-article a {
+  color: #111;
+}
+
+.log-article a h2 {
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+.log-article blockquote {
+  margin-left: 0;
+}
+
+.log-article .flex-2 {
+  display: flex;
+  align-items: center;
+}
+
+.log-article .flex-2 i {
+  color: #555;
+  height: 1rem;
+  width: 1rem;
+  margin-right: 0.4rem;
+}
+
+.no-log-wrapper {
+  border: 2px solid #5858fc;
+  background-color: #e1e1ec;
+  border-radius: 0.4rem;
+  padding: 2rem;
+}
+
+.no-log-wrapper a {
+  color: blue;
+  text-decoration: none;
+}

@@ -25,7 +25,7 @@ const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
         title: '',
         description: '',
         comments: '',
-        rating: 5,
+        rating: 0,
         visitDate: '',
       }}
       onSubmit={async (values, action) => {
@@ -40,7 +40,7 @@ const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
                     action.setFieldError(path, message)
                   );
                 } else {
-                  queryClient.invalidateQueries('logEntries');
+                  queryClient.invalidateQueries('myLogs');
                   onClose();
                 }
               },
@@ -59,8 +59,8 @@ const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
           <InputField
             type='number'
             name='rating'
-            min={1}
-            max={10}
+            min={0}
+            max={5}
             label='Rating'
           />
           <InputField type='date' name='visitDate' label='Visit Date' />

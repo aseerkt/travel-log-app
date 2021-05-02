@@ -11,7 +11,9 @@ const Header = () => {
     <header>
       <div className='container'>
         <Link className='logo' to='/'>
-          <h1>travel-log.</h1>
+          <h1>
+            trave<span style={{ color: 'yellow' }}>l-l</span>ogs.
+          </h1>
         </Link>
         <nav>
           {data && !data.user ? (
@@ -26,15 +28,14 @@ const Header = () => {
           ) : (
             <ul>
               <li>
-                <a
-                  href='#'
+                <button
                   onClick={() => {
                     localStorage.removeItem('jwt');
                     queryClient.invalidateQueries('me');
                   }}
                 >
                   Logout
-                </a>
+                </button>
               </li>
             </ul>
           )}

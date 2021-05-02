@@ -16,6 +16,33 @@ export const fetchMyLogs = async (
   }
 };
 
+export const fetchAllLogs = async (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const entries = await LogEntry.find();
+    return res.json(entries);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const fetchOneLog = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const entries = await LogEntry.findById(id);
+    return res.json(entries);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 export const addLog = async (
   req: Request,
   res: Response,

@@ -2,11 +2,26 @@ import { API_URL } from '../config';
 import { LogEntry } from '../types/LogEntry';
 import getConfig from '../utils/getConfig';
 
-export const listLogEntries = async () => {
-  return fetch(`${API_URL}/api/logs`, {
-    headers: { ...getConfig() },
-  }).then((res) => res.json());
+//Queries
+
+export const fetchAllLogs = async () => {
+  const res = await fetch(`${API_URL}/api/logs/all`);
+  return await res.json();
 };
+
+export async function fetchMyLogs() {
+  const res = await fetch(`${API_URL}/api/logs`, {
+    headers: { ...getConfig() },
+  });
+  return await res.json();
+}
+
+export async function fetchOneLog(id: string) {
+  const res = await fetch(`${API_URL}/api/logs/one/${id}`);
+  return await res.json();
+}
+
+// Mutations
 
 export const addLogEntry = async (logData: LogEntry) => {
   const res = await fetch(`${API_URL}/api/logs`, {

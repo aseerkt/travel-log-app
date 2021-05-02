@@ -1,15 +1,12 @@
 header {
-  padding-left: 2rem;
   position: sticky;
   top: 0;
-  display: flex;
-  align-items: center;
-  width: 100%;
+  left: 0;
+  right: 0;
   height: 60px;
   color: #f4f4f4;
   background-color: #222;
   z-index: 20;
-  vertical-align: middle;
 }
 
 header .container {

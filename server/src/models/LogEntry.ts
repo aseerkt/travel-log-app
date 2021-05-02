@@ -35,14 +35,14 @@ const logEntrySchema = new mongoose.Schema<ILogEntry>(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, 'Title is required'],
     },
     description: String,
     comments: String,
     rating: {
       type: Number,
-      min: 0,
-      max: 10,
+      min: [0, 'Minimum should be 0'],
+      max: [5, 'Maximum should be 5'],
       default: 0,
     },
     latitude: {
@@ -57,7 +57,7 @@ const logEntrySchema = new mongoose.Schema<ILogEntry>(
     },
     visitDate: {
       type: Date,
-      required: true,
+      required: [true, 'Visit Date is required'],
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,

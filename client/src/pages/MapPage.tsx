@@ -2,13 +2,13 @@ import { useState } from 'react';
 import ReactMapGL, { MapEvent, Marker, Popup } from 'react-map-gl';
 import { useQuery } from 'react-query';
 import AddLogEntryForm from '../components/AddLogEntryForm';
-import { listLogEntries } from '../services/logs';
+import { fetchMyLogs } from '../services/logs';
 import { LogEntryDoc } from '../types/LogEntry';
 
 const MapPage = () => {
   const { data: logEntries, isLoading } = useQuery<LogEntryDoc[]>(
-    'logEntries',
-    listLogEntries
+    'myLogs',
+    fetchMyLogs
   );
   const [showPopup, setShowPopup] = useState<Record<string, boolean>>({});
   const [addEventLocation, setAddEventLocation] = useState<{
