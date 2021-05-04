@@ -1,5 +1,6 @@
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
+import Loader from '../components/Loader';
 import Rating from '../components/Rating';
 import { fetchAllLogs } from '../services/logs';
 import { LogEntryDoc } from '../types/LogEntry';
@@ -8,7 +9,7 @@ import './LogsPage.css';
 const LogsPage = () => {
   const { data, isLoading } = useQuery<LogEntryDoc[]>('allLogs', fetchAllLogs);
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <Loader info='Fetching public logs' />;
   }
   return (
     <div className='container public-logs-container'>
@@ -31,7 +32,7 @@ const LogsPage = () => {
                 </span>
               </p>
               <small>
-                <strong>Author Rating:</strong> {entry.rating} out of 5
+                <strong>Author Rating:</strong>
                 <Rating rating={entry.rating} />
               </small>
             </article>

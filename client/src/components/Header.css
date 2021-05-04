@@ -37,3 +37,7 @@ header ul li a {
   margin-left: 2rem;
   text-decoration: none;
 }
+
+header ul li button {
+  margin-left: 2rem;
+}

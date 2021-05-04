@@ -6,3 +6,8 @@ export interface UserDoc {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface PublicUserDoc {
+  _id: string;
+  fullName: string;
+}

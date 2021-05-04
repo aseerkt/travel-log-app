@@ -44,11 +44,7 @@ const MapPage = () => {
       onViewportChange={(nextViewport: any) => setViewport(nextViewport)}
       onDblClick={addNewLocation}
       onResize={() => {
-        setViewport({
-          ...viewport,
-          width: '100vw',
-          height: 'calc(100vh - 60px)',
-        });
+        setViewport((vp) => ({ ...vp, width: '100vw' }));
       }}
     >
       {logEntries &&

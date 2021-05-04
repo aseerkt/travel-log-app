@@ -50,3 +50,9 @@
   color: blue;
   text-decoration: none;
 }
+
+@media screen and (max-width: 768px) {
+  .public-logs-container {
+    grid-template-columns: 1fr;
+  }
+}

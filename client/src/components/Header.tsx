@@ -28,6 +28,9 @@ const Header = () => {
           ) : (
             <ul>
               <li>
+                <Link to='/my-logs-map'>Add new log</Link>
+              </li>
+              <li>
                 <button
                   onClick={() => {
                     localStorage.removeItem('jwt');

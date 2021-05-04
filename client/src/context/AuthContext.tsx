@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer } from 'react';
 import { useQuery } from 'react-query';
+import Loader from '../components/Loader';
 import { loadUser } from '../services/users';
 import { UserDoc } from '../types/User';
 
@@ -47,7 +48,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { isLoading } = useQuery('me', loadUser);
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <Loader />;
   }
 
   return (
