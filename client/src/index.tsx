@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 // @ts-ignore
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp';
 // @ts-ignore
-import MapboxWorker from 'mapbox-gl/dist/mapbox-gl-csp-worker';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import MapboxWorker from 'worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker';
 import './index.css';
 import App from './App';
 
