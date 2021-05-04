@@ -27,7 +27,7 @@ app.use(express.json());
 
 app.get('/', (_, res) => {
   res.json({
-    message: 'Welcome to Travel Log CG API!',
+    message: 'Welcome to Travel Logs API!',
   });
 });
 

@@ -8,7 +8,8 @@
     "server": "nodemon dist/server.js",
     "dev": "concurrently \"npx tsc -w\" \"yarn server\" -n tsc,server ",
     "lint": "eslint src/",
-    "postinstall": "rm node_modules/mongoose/index.d.ts"
+    "postinstall": "rm node_modules/mongoose/index.d.ts",
+    "heroku-postbuild": "yarn tsc"
   },
   "keywords": [],
   "author": "",
