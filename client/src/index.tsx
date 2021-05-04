@@ -1,14 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// @ts-ignore
-import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp';
-// @ts-ignore
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import MapboxWorker from 'worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker';
 import './index.css';
 import App from './App';
+import mapboxgl from 'mapbox-gl';
 
-mapboxgl.workerClass = MapboxWorker;
+// eslint-disable-next-line import/no-webpack-loader-syntax
+(mapboxgl as any).workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 ReactDOM.render(
   <React.StrictMode>
