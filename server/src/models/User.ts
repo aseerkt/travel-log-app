@@ -52,8 +52,6 @@ UserSchema.pre<IUser>('save', async function (next) {
 });
 
 UserSchema.methods.verifyPassword = async function (password: string) {
-  console.log('this.password', this.password);
-  console.log('password', password);
   return await argon2.verify(this.password, password);
 };
 

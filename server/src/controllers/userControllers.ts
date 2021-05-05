@@ -43,7 +43,6 @@ export const loginUser = async (
     if (!user) {
       return res.status(400).json({ message: 'User not found' });
     }
-    console.log('password in controller', password);
     if (!(await user.verifyPassword(password))) {
       return res.status(400).json({ message: 'Incorrect Password' });
     }
@@ -63,16 +62,11 @@ export const registerUser = async (
   next: NextFunction
 ) => {
   const { fullName, username, email, password } = req.body;
-  console.log(req.body);
   try {
     const user = new User({ fullName, username, email, password });
     await user.save();
     return res.json({ ok: true });
   } catch (error) {
-    // if (error.name === 'ValidationError') {
-    //   console.log(extractFormErrors(Object.values(error.errors)));
-    //   res.status(422); // Unprocessable Entity
-    // }
     returnFormErrors(res, error);
     return next(error);
   }
