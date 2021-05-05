@@ -5,11 +5,12 @@ import AddLogEntryForm from '../components/AddLogEntryForm';
 import { fetchMyLogs } from '../services/logs';
 import { LogEntryDoc } from '../types/LogEntry';
 // @ts-ignore
-import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp';
+import mapboxgl from 'mapbox-gl';
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import MapboxWorker from 'worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker';
 
+// @ts-ignore
 mapboxgl.workerClass = MapboxWorker;
 
 const MapPage = () => {
