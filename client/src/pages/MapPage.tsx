@@ -1,59 +1,77 @@
-import { useState } from 'react';
-import ReactMapGL, { MapEvent, Marker, Popup } from 'react-map-gl';
-import { useQuery } from 'react-query';
+import { useEffect, useState } from 'react';
+import { MapEvent, Marker, Popup } from 'react-map-gl';
+import MarkerPin from '../components/MarkerPin';
+import useFetchMyLogs from '../hooks/queries/useFetchMyLogs';
+import Loader from '../components/Loader';
+import MapWrapper from '../components/MapWrapper';
+import './MapPage.css';
 import AddLogEntryForm from '../components/AddLogEntryForm';
-import { fetchMyLogs } from '../services/logs';
-import { LogEntryDoc } from '../types/LogEntry';
-// @ts-ignore
-import mapboxgl from 'mapbox-gl';
-// @ts-ignore
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import MapboxWorker from 'worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker';
 
-// @ts-ignore
-mapboxgl.workerClass = MapboxWorker;
+type Location = {
+  longitude: number;
+  latitude: number;
+};
+const freezeMapSettings = {
+  dragPan: false,
+  dragRotate: false,
+  scrollZoom: false,
+  touchZoom: false,
+  touchRotate: false,
+  keyboard: false,
+  doubleClickZoom: false,
+};
 
 const MapPage = () => {
-  const { data: logEntries, isLoading } = useQuery<LogEntryDoc[]>(
-    'myLogs',
-    fetchMyLogs
-  );
+  const { data: logEntries, isLoading } = useFetchMyLogs();
   const [showPopup, setShowPopup] = useState<Record<string, boolean>>({});
-  const [addEventLocation, setAddEventLocation] = useState<{
-    latitude?: number;
-    longitude?: number;
-  } | null>(null);
+  const [newLocation, setNewLocation] = useState<Location | null>(null);
+  const [confirmLoc, setConfirmLoc] = useState<Location | null>(null);
   const [viewport, setViewport] = useState({
     width: '100vw',
     height: 'calc(100vh - 60px)',
+  });
+  const [location, setLocation] = useState({
     latitude: 27.1751448,
     longitude: 78.0399535,
     zoom: 5,
   });
 
   const addNewLocation = (event: MapEvent) => {
+    console.log(event);
+    setConfirmLoc(null);
     const [longitude, latitude] = event.lngLat;
     setShowPopup({});
-    setAddEventLocation({
+    setNewLocation({
       latitude,
       longitude,
     });
+    setLocation({ ...location, latitude, longitude });
   };
 
+  useEffect(() => {
+    if (confirmLoc) {
+      setViewport({ ...viewport, width: '50vw' });
+    } else {
+      setViewport({ ...viewport, width: '100vw' });
+    }
+  }, [confirmLoc]);
+
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <Loader info='Loading map...' />;
   }
 
   return (
-    <ReactMapGL
-      {...viewport}
-      mapStyle='mapbox://styles/thecjreynolds/ck117fnjy0ff61cnsclwimyay'
-      mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-      onViewportChange={(nextViewport: any) => setViewport(nextViewport)}
-      onDblClick={addNewLocation}
-      onResize={() => {
-        setViewport((vp) => ({ ...vp, width: '100vw' }));
+    <MapWrapper
+      viewportState={{ viewport, setViewport }}
+      locationState={{ location, setLocation }}
+      onDblClick={(e) => {
+        e.stopImmediatePropagation();
+        if (!confirmLoc) {
+          addNewLocation(e);
+        }
       }}
+      // Freeze map after confirming the location
+      {...(confirmLoc && freezeMapSettings)}
     >
       {logEntries &&
         logEntries.map((entry) => (
@@ -68,22 +86,7 @@ const MapPage = () => {
                   setShowPopup({ [entry._id]: true });
                 }}
               >
-                <svg
-                  className='marker-svg'
-                  viewBox='0 0 24 24'
-                  style={{
-                    width: `${viewport.zoom * 8}px`,
-                    height: `${viewport.zoom * 8}px`,
-                  }}
-                  stroke='#f8f22c'
-                  strokeWidth='2'
-                  fill='none'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                >
-                  <path d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'></path>
-                  <circle cx='12' cy='10' r='3'></circle>
-                </svg>
+                <MarkerPin markerSize={location.zoom} />
               </div>
             </Marker>
             {showPopup[entry._id] && (
@@ -108,58 +111,69 @@ const MapPage = () => {
             )}
           </>
         ))}
-      {addEventLocation && (
+      {newLocation && (
         <>
           <Marker
-            key={JSON.stringify(addEventLocation)}
-            latitude={addEventLocation.latitude!}
-            longitude={addEventLocation.longitude!}
+            key={JSON.stringify(newLocation)}
+            latitude={newLocation.latitude!}
+            longitude={newLocation.longitude!}
           >
             <div>
-              <svg
-                className='marker-svg'
-                viewBox='0 0 24 24'
-                style={{
-                  width: `${viewport.zoom * 8}px`,
-                  height: `${viewport.zoom * 8}px`,
-                }}
-                stroke='#f8f22c'
-                strokeWidth='2'
-                fill='none'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-              >
-                <path d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'></path>
-                <circle cx='12' cy='10' r='3'></circle>
-              </svg>
+              <MarkerPin markerSize={location.zoom} markerColor='red' />
             </div>
           </Marker>
           <Popup
-            key={JSON.stringify(addEventLocation) + Math.random() * 100}
-            latitude={addEventLocation.latitude!}
-            longitude={addEventLocation.longitude!}
+            key={JSON.stringify(newLocation) + Math.random() * 100}
+            latitude={newLocation.latitude!}
+            longitude={newLocation.longitude!}
             closeButton={true}
             closeOnClick={false}
-            onClose={() => setAddEventLocation(null)}
+            onClose={() => {
+              setNewLocation(null);
+              if (confirmLoc) {
+                setConfirmLoc(null);
+              }
+            }}
             dynamicPosition={true}
             anchor='top'
           >
             <div className='popup'>
-              <h3>Add Event Here</h3>
-              <AddLogEntryForm
-                onClose={() => {
-                  setAddEventLocation(null);
+              {!confirmLoc && <h3>Confirm Location</h3>}
+              <ul className='new-location-wrapper'>
+                <li>
+                  <strong>Latitude: </strong> {newLocation.latitude}
+                </li>
+                <li>
+                  <strong>Longitude: </strong> {newLocation.longitude}
+                </li>
+              </ul>
+              <button
+                onClick={() => {
+                  setConfirmLoc(newLocation);
+                  setLocation({
+                    ...location,
+                    longitude: newLocation.longitude,
+                    latitude: newLocation.latitude,
+                  });
                 }}
-                location={{
-                  latitude: addEventLocation.latitude!,
-                  longitude: addEventLocation.longitude!,
-                }}
-              />
+                disabled={!!confirmLoc}
+              >
+                {confirmLoc ? 'Location selected' : 'Select location'}
+              </button>
             </div>
           </Popup>
         </>
       )}
-    </ReactMapGL>
+      {confirmLoc && newLocation && (
+        <div className='add-log-wrapper'>
+          <div className='add-log-header'>
+            <h2>Add Log</h2>
+            <i onClick={() => setConfirmLoc(null)} className='fas fa-times'></i>
+          </div>
+          <AddLogEntryForm location={confirmLoc} />
+        </div>
+      )}
+    </MapWrapper>
   );
 };
 

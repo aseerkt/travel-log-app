@@ -1,0 +1,40 @@
+.new-location-wrapper {
+  margin: 1rem 0;
+  padding-left: 0;
+  flex-direction: column;
+}
+
+.new-location-wrapper li {
+  margin-bottom: 0.3rem;
+}
+
+.add-log-wrapper {
+  width: 50vw;
+  height: calc(100vh - 60px);
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 2rem;
+  z-index: 10;
+}
+
+.add-log-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.add-log-header h2 {
+  margin: 0;
+}
+
+.add-log-header i {
+  cursor: pointer;
+  padding: 0.4rem;
+}
+
+.add-log-header i:hover {
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.1);
+}

@@ -1,20 +1,19 @@
-import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Rating from '../components/Rating';
-import { fetchAllLogs } from '../services/logs';
-import { LogEntryDoc } from '../types/LogEntry';
+import useFetchAllLogs from '../hooks/queries/useFetchAllLogs';
+
 import './LogsPage.css';
 
 const LogsPage = () => {
-  const { data, isLoading } = useQuery<LogEntryDoc[]>('allLogs', fetchAllLogs);
+  const { data, isLoading } = useFetchAllLogs();
   if (isLoading) {
     return <Loader info='Fetching public logs' />;
   }
   return (
     <div className='container public-logs-container'>
       <section>
-        <h1>Browse logs</h1>
+        <h1 style={{ textTransform: 'uppercase' }}>Browse logs</h1>
         {data && data.length > 0 ? (
           data.map((entry) => (
             <article className='log-article' key={entry._id}>
@@ -23,12 +22,18 @@ const LogsPage = () => {
               </Link>
               <blockquote className='flex-2'>
                 <i className='fas fa-quote-left'></i>{' '}
-                <span>{entry.comments ? entry.comments : 'No comments'}</span>
+                <span>
+                  {entry.comments ? entry.comments : <small>No comments</small>}
+                </span>
               </blockquote>
               <p className='flex-2'>
                 <i className='fas fa-info-circle'></i>
                 <span>
-                  {entry.description ? entry.description : 'No description'}
+                  {entry.description ? (
+                    entry.description
+                  ) : (
+                    <small>No description</small>
+                  )}
                 </span>
               </p>
               <small>
