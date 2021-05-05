@@ -1,7 +1,6 @@
 import { createContext, useContext, useReducer } from 'react';
-import { useQuery } from 'react-query';
 import Loader from '../components/Loader';
-import { loadUser } from '../services/users';
+import useMeQuery from '../hooks/queries/useMeQuery';
 import { UserDoc } from '../types/User';
 
 interface State {
@@ -45,7 +44,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const dispatch = (type: string, payload?: any) =>
     defaultDispatch({ type, payload });
 
-  const { isLoading } = useQuery('me', loadUser);
+  const { isLoading } = useMeQuery();
 
   if (isLoading) {
     return <Loader />;

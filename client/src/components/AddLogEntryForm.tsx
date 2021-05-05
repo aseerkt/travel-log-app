@@ -1,23 +1,24 @@
 import { Form, Formik } from 'formik';
-import { useMutation, useQueryClient } from 'react-query';
-import { addLogEntry } from '../services/logs';
+import { useQueryClient } from 'react-query';
+import { useHistory } from 'react-router-dom';
+import useAddLogMutation from '../hooks/mutations/useAddLogMutation';
 import { FormError } from '../types/FormError';
 import InputField from './InputField';
+import './AddLogEntryForm.css';
 
 type AddLogEntryFormProps = {
   location: {
     latitude: number;
     longitude: number;
   };
-  onClose: Function;
 };
 
 const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
   location: { latitude, longitude },
-  onClose,
 }) => {
   const queryClient = useQueryClient();
-  const { mutateAsync } = useMutation(addLogEntry);
+  const { mutateAsync } = useAddLogMutation();
+  const history = useHistory();
 
   return (
     <Formik
@@ -41,7 +42,7 @@ const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
                   );
                 } else {
                   queryClient.invalidateQueries('myLogs');
-                  onClose();
+                  history.push(`/logs/${data._id}`);
                 }
               },
             }
@@ -56,14 +57,16 @@ const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
           <InputField name='title' label='Title' />
           <InputField name='description' textarea label='Description' />
           <InputField name='comments' label='Comments' />
-          <InputField
-            type='number'
-            name='rating'
-            min={0}
-            max={5}
-            label='Rating'
-          />
-          <InputField type='date' name='visitDate' label='Visit Date' />
+          <div className='form-grid-2'>
+            <InputField
+              type='number'
+              name='rating'
+              min={0}
+              max={5}
+              label='Rating'
+            />
+            <InputField type='date' name='visitDate' label='Visit Date' />
+          </div>
           <button type='submit' disabled={isSubmitting}>
             Add Log
           </button>

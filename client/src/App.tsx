@@ -11,6 +11,7 @@ import MapPage from './pages/MapPage';
 import LogsPage from './pages/LogsPage';
 import LogPage from './pages/LogPage';
 import ProfilePage from './pages/ProfilePage';
+import AddLogPage from './pages/AddLogPage';
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,11 @@ const App = () => {
               <Route exact path='/logs/:id' component={LogPage} />
               <Route exact path='/login' component={LoginPage} />
               <PrivateRoute exact path='/my-logs-map' component={MapPage} />
+              <PrivateRoute
+                exact
+                path='/add-log?lat=:latitude&long=:longitude'
+                component={AddLogPage}
+              />
               <Route exact path='/u/:userId' component={ProfilePage} />
               <Route exact path='/register' component={RegisterPage} />
             </Switch>

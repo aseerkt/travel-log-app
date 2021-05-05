@@ -1,18 +1,16 @@
-import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-import { fetchOneLog } from '../services/logs';
-import { LogEntryDoc } from '../types/LogEntry';
+import Loader from '../components/Loader';
+import useFetchOneLog from '../hooks/queries/useFetchOneLog';
+
 import './LogPage.css';
 
 const LogPage = () => {
   const params: any = useParams();
   const logId: string = params.id;
-  const { data, isLoading } = useQuery<LogEntryDoc>(['oneLog', logId], () =>
-    fetchOneLog(logId)
-  );
+  const { data, isLoading } = useFetchOneLog(logId);
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <Loader info='Loading log...' />;
   }
 
   return (
