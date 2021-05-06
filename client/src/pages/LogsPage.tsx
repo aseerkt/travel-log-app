@@ -65,7 +65,7 @@ const LogsPage = () => {
           <Link to='/login'>
             <h3 style={{ color: 'blueviolet' }}>Sign In</h3>
           </Link>
-          <p>Login to keep track of your personal journey</p>
+          <p>Login to keep track of your adventures</p>
         </div>
       </section>
     </div>
