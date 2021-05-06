@@ -23,6 +23,10 @@ const freezeMapSettings = {
   doubleClickZoom: false,
 };
 
+const scrollToBottom = () => {
+  window.scrollTo(0, document.body.scrollHeight);
+};
+
 const MapPage = () => {
   const { data: logEntries, isLoading } = useFetchMyLogs();
   const [showPopup, setShowPopup] = useState<Record<string, boolean>>({});
@@ -177,6 +181,11 @@ const MapPage = () => {
                       longitude: newLocation.longitude,
                       latitude: newLocation.latitude,
                     });
+                    if (isTab) {
+                      setTimeout(() => {
+                        scrollToBottom();
+                      }, 500);
+                    }
                   }}
                   disabled={!!confirmLoc}
                 >
@@ -204,7 +213,7 @@ const MapPage = () => {
           <div
             className='bottom-nav'
             onClick={() => {
-              window.scrollTo(0, document.body.scrollHeight);
+              scrollToBottom();
             }}
           ></div>
           <div className='add-log-header'>
