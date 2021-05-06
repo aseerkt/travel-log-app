@@ -15,7 +15,7 @@ type LocationState = {
   zoom: number;
 };
 
-type ViewportState = {
+type Dimension = {
   width: string;
   height: string;
 };
@@ -26,7 +26,7 @@ type MapWrapperProps = InteractiveMapProps & {
     setLocation: React.Dispatch<React.SetStateAction<LocationState>>;
   };
   viewportState: {
-    viewport: ViewportState;
+    viewport: Dimension;
   };
 };
 
@@ -47,6 +47,7 @@ const MapWrapper: React.FC<MapWrapperProps> = ({
         position: 'relative',
         width,
         height,
+        overflowY: 'auto',
       }}
     >
       <ReactMapGL

@@ -4,7 +4,7 @@
   flex-direction: column;
 }
 
-.new-location-wrapper li {
+.new-location-wrapper::before .new-location-wrapper li {
   margin-bottom: 0.3rem;
 }
 
@@ -17,6 +17,25 @@
   background-color: #fff;
   padding: 2rem;
   z-index: 10;
+  overflow-y: auto;
+}
+
+.add-log-wrapper .bottom-nav {
+  cursor: pointer;
+  text-align: center;
+  height: 6px;
+  width: 100px;
+  margin: -1rem auto 1rem auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.add-log-wrapper.tab-view {
+  position: absolute;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  width: 100%;
+  top: 95%;
+  left: 0;
 }
 
 .add-log-header {

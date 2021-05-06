@@ -22,7 +22,6 @@ const LoginPage = () => {
         onSubmit={async (values, _action) => {
           setErrMsg('');
           const res = await mutateAsync(values);
-          console.log(res);
           const { user, jwt } = res;
           if (res.message) {
             setErrMsg(res.message);
