@@ -54,18 +54,21 @@ const LogsPage = () => {
       <section>
         <h1>YOUR LOGS</h1>
         <div className='log-article'>
-          {meData && meData.user && (
+          {meData && meData.user ? (
             <article>
-              <h2>Welcome ${meData.user.fullName}</h2>
+              <h2>Welcome {meData.user.fullName}</h2>
               <Link to='/my-logs-map'>
-                <button>Add new log</button>
+                <button>Update your logs</button>
               </Link>
             </article>
+          ) : (
+            <div>
+              <Link to='/login'>
+                <h3 style={{ color: 'blueviolet' }}>Sign In</h3>
+              </Link>
+              <p>Login to keep track of your adventures</p>
+            </div>
           )}
-          <Link to='/login'>
-            <h3 style={{ color: 'blueviolet' }}>Sign In</h3>
-          </Link>
-          <p>Login to keep track of your adventures</p>
         </div>
       </section>
     </div>
