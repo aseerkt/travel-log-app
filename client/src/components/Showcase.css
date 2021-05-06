@@ -1,0 +1,43 @@
+.showcase-wrapper {
+  position: relative;
+  color: #fff;
+  text-align: center;
+  padding: 5rem 1rem;
+  background-image: url(../assets/travel-map-banner.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 1;
+  margin-top: -60px;
+  padding-top: calc(5rem + 60px);
+}
+
+.showcase-wrapper::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 2;
+}
+
+.showcase-wrapper h1,
+.showcase-wrapper p {
+  position: relative;
+  z-index: 6;
+}
+
+.showcase-wrapper h1 {
+  font-size: 3rem;
+}
+
+.showcase-wrapper p {
+  font-size: 1.5rem;
+}
+
+.logo-text:hover {
+  cursor: crosshair;
+  text-decoration: underline;
+}

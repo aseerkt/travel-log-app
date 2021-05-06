@@ -1,7 +1,7 @@
 .public-logs-container {
   width: 100%;
   display: grid;
-  grid-template-columns: 70% 30%;
+  grid-template-columns: 65% 35%;
   gap: 1rem;
 }
 

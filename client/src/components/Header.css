@@ -9,6 +9,10 @@ header {
   z-index: 20;
 }
 
+header.transparent {
+  background-color: transparent;
+}
+
 header .container {
   display: flex;
   align-items: center;
@@ -28,16 +32,45 @@ header h1 {
   margin: 0;
 }
 
+header h1 i {
+  margin-right: 0.3rem;
+}
+
 header ul {
   align-items: center;
+  padding-left: 0;
 }
 
 header ul li a {
   cursor: pointer;
   margin-left: 2rem;
   text-decoration: none;
+  text-align: center;
+}
+
+header ul li a i,
+header ul li button i {
+  margin-right: 0.3rem;
 }
 
 header ul li button {
   margin-left: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+}
+
+@media screen and (max-width: 500px) {
+  header ul li a,
+  header ul li button {
+    font-size: 0;
+    margin-left: 1rem;
+  }
+  header ul li a i,
+  header ul li button i {
+    font-size: 1rem;
+  }
+  header h1 {
+    font-size: 1.5em;
+  }
 }

@@ -9,6 +9,10 @@
   vertical-align: middle;
 }
 
+.loader h1 i {
+  margin-right: 0.3rem;
+}
+
 .spinner {
   border: 8px solid #f3f3f3; /* Light grey */
   border-top: 8px solid #3498db; /* Blue */

@@ -80,12 +80,6 @@ button:disabled {
   margin-bottom: 1rem;
 }
 
-@media (max-width: 375px) {
-  .popup {
-    max-width: 300px;
-  }
-}
-
 mapboxgl-canvas {
   left: 0;
 }
@@ -95,4 +89,13 @@ mapboxgl-canvas {
   padding: 0.3rem !important;
   margin: 0;
   font-size: 1.5rem !important;
+}
+
+@media (max-width: 375px) {
+  .popup {
+    max-width: 300px;
+  }
+  .container {
+    padding: 0.7rem;
+  }
 }

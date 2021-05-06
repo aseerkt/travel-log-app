@@ -1,17 +1,18 @@
-import { useQuery, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
-import { loadUser } from '../services/users';
 import './Header.css';
+import useMeQuery from '../hooks/queries/useMeQuery';
 
 const Header = () => {
   const queryClient = useQueryClient();
-  const { data } = useQuery('me', loadUser);
+  const { data } = useMeQuery();
 
   return (
     <header>
       <div className='container'>
         <Link className='logo' to='/'>
           <h1>
+            <i className='fas fa-map-marked-alt'></i>
             trave<span style={{ color: 'yellow' }}>l-l</span>ogs.
           </h1>
         </Link>
@@ -28,7 +29,10 @@ const Header = () => {
           ) : (
             <ul>
               <li>
-                <Link to='/my-logs-map'>Add new log</Link>
+                <Link to='/my-logs-map'>
+                  <i className='fas fa-route'></i>
+                  My logs
+                </Link>
               </li>
               <li>
                 <button
@@ -37,6 +41,7 @@ const Header = () => {
                     queryClient.invalidateQueries('me');
                   }}
                 >
+                  <i className='fas fa-sign-out-alt'></i>
                   Logout
                 </button>
               </li>

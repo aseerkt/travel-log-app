@@ -2,17 +2,19 @@ import { Link } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Rating from '../components/Rating';
 import useFetchAllLogs from '../hooks/queries/useFetchAllLogs';
+import useMeQuery from '../hooks/queries/useMeQuery';
 
 import './LogsPage.css';
 
 const LogsPage = () => {
+  const { data: meData } = useMeQuery();
   const { data, isLoading } = useFetchAllLogs();
   if (isLoading) {
     return <Loader info='Fetching public logs' />;
   }
   return (
     <div className='container public-logs-container'>
-      <section>
+      <section className='logs-list'>
         <h1 style={{ textTransform: 'uppercase' }}>Browse logs</h1>
         {data && data.length > 0 ? (
           data.map((entry) => (
@@ -48,6 +50,23 @@ const LogsPage = () => {
             <Link to='/my-logs-map'>Add new log</Link>
           </div>
         )}
+      </section>
+      <section>
+        <h1>YOUR LOGS</h1>
+        <div className='log-article'>
+          {meData && meData.user && (
+            <article>
+              <h2>Welcome ${meData.user.fullName}</h2>
+              <Link to='/my-logs-map'>
+                <button>Add new log</button>
+              </Link>
+            </article>
+          )}
+          <Link to='/login'>
+            <h3 style={{ color: 'blueviolet' }}>Sign In</h3>
+          </Link>
+          <p>Login to keep track of your personal journey</p>
+        </div>
       </section>
     </div>
   );
