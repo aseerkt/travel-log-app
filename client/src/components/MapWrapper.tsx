@@ -27,7 +27,6 @@ type MapWrapperProps = InteractiveMapProps & {
   };
   viewportState: {
     viewport: ViewportState;
-    setViewport: React.Dispatch<React.SetStateAction<ViewportState>>;
   };
 };
 
@@ -40,8 +39,8 @@ const MapWrapper: React.FC<MapWrapperProps> = ({
   const { location, setLocation } = locationState;
   const {
     viewport: { width, height },
-    setViewport,
   } = viewportState;
+
   return (
     <div
       style={{

@@ -54,6 +54,7 @@ const MapPage = () => {
     } else {
       setViewport({ ...viewport, width: '100vw' });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [confirmLoc]);
 
   if (isLoading) {
@@ -62,7 +63,7 @@ const MapPage = () => {
 
   return (
     <MapWrapper
-      viewportState={{ viewport, setViewport }}
+      viewportState={{ viewport }}
       locationState={{ location, setLocation }}
       onDblClick={(e) => {
         e.stopImmediatePropagation();
