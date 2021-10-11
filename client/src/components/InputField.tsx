@@ -15,7 +15,6 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   const [field, { error, touched }] = useField(props);
   const propsToSpread = {
-    id: props.id,
     type: props.type,
     placeholder: props.placeholder,
     className: props.className,
