@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -12,6 +13,13 @@ import LogsPage from './pages/LogsPage';
 import LogPage from './pages/LogPage';
 import ProfilePage from './pages/ProfilePage';
 import AddLogPage from './pages/AddLogPage';
+import { API_URL } from './config';
+
+axios.defaults.baseURL = `${API_URL}/api`;
+axios.defaults.headers = {
+  'Content-Type': 'applcation/json',
+  authorization: `Bearer ${localStorage.getItem('jwt')}`,
+};
 
 const queryClient = new QueryClient();
 

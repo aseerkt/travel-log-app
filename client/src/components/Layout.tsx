@@ -7,7 +7,7 @@ const Layout: React.FC = ({ children }) => {
 
   return (
     <div>
-      <Header />
+      {!['/login', '/register'].includes(location.pathname) && <Header />}
       {location.pathname === '/' && <Showcase />}
       {children}
     </div>

@@ -196,7 +196,7 @@ const MapPage = () => {
           </>
         )}
         {confirmLoc && !isTab && newLocation && (
-          <div className={classNames('add-log-wrapper', { 'tab-view': isTab })}>
+          <div className={classNames('add-log-wrapper')}>
             <div className='add-log-header'>
               <h2>Add Log</h2>
               <i

@@ -15,6 +15,7 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   const [field, { error, touched }] = useField(props);
   const propsToSpread = {
+    id: field.name,
     type: props.type,
     placeholder: props.placeholder,
     className: props.className,
@@ -29,14 +30,9 @@ const InputField: React.FC<InputFieldProps> = ({
         {label}
       </label>
       {textarea ? (
-        <textarea
-          rows={4}
-          {...propsToSpread}
-          id={field.name}
-          {...field}
-        ></textarea>
+        <textarea rows={4} {...propsToSpread} {...field}></textarea>
       ) : (
-        <input id={field.name} {...propsToSpread} {...field} />
+        <input {...propsToSpread} {...field} />
       )}
       <small></small>
       {touched && error && <small className='errorText'>{error}</small>}

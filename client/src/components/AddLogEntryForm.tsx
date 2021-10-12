@@ -2,7 +2,6 @@ import { Form, Formik } from 'formik';
 import { useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import useAddLogMutation from '../hooks/mutations/useAddLogMutation';
-import { FormError } from '../types/FormError';
 import InputField from './InputField';
 import './AddLogEntryForm.css';
 
@@ -35,15 +34,15 @@ const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
             { ...values, latitude, longitude },
             {
               onSuccess: (data) => {
-                const { errors } = data;
-                if (errors) {
-                  (errors as FormError).forEach(({ path, message }) =>
+                if (data.errors?.length) {
+                  data.errors.forEach(({ path, message }) =>
                     action.setFieldError(path, message)
                   );
-                } else {
-                  queryClient.invalidateQueries('myLogs');
-                  history.push(`/logs/${data._id}`);
+                  return;
                 }
+
+                queryClient.invalidateQueries('myLogs');
+                history.push(`/logs/${data._id}`);
               },
             }
           );

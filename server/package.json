@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/server.js",
     "server": "nodemon dist/server.js",
-    "dev": "concurrently \"npx tsc -w\" \"yarn server\" -n tsc,server ",
+    "dev": "concurrently \"npx tsc -w\" \"yarn server\" -n tsc,server -c green,blue",
     "lint": "eslint src/",
     "postinstall": "rm node_modules/mongoose/index.d.ts",
     "heroku-postbuild": "yarn tsc"

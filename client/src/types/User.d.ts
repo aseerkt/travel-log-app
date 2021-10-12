@@ -1,3 +1,5 @@
+import { ResError } from './Error';
+
 export interface UserDoc {
   _id: string;
   email: string;
@@ -10,4 +12,9 @@ export interface UserDoc {
 export interface PublicUserDoc {
   _id: string;
   fullName: string;
+}
+
+export interface AuthResponse extends ResError {
+  user?: UserDoc;
+  jwt?: string;
 }

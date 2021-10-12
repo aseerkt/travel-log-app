@@ -48,7 +48,6 @@ export const loginUser = async (
     }
     const jwt = setToken(user);
     const userToReturn = user.toJSON();
-    delete userToReturn.password;
     return res.json({ user: userToReturn, jwt });
   } catch (error) {
     console.log(error);

@@ -1,5 +1,7 @@
+import axios, { AxiosResponse } from 'axios';
 import { API_URL } from '../config';
-import getConfig from '../utils/getConfig';
+import { ResError } from '../types/Error';
+import { AuthResponse } from '../types/User';
 
 type LoginData = {
   username: string;
@@ -12,33 +14,27 @@ type RegisterData = LoginData & {
 };
 
 export const loginUser = async (loginData: LoginData) => {
-  return await fetch(`${API_URL}/api/users/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(loginData),
-  }).then((result) => result.json());
+  const res = await axios.post<LoginData, AxiosResponse<AuthResponse>>(
+    `${API_URL}/api/users/login`,
+    loginData
+  );
+  return res.data;
 };
 
 export const registerUser = async (registerData: RegisterData) => {
-  return fetch(`${API_URL}/api/users/register`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(registerData),
-  }).then((result) => result.json());
+  const res = await axios.post<
+    RegisterData,
+    AxiosResponse<ResError & { ok: boolean }>
+  >(`${API_URL}/api/users/register`, registerData);
+  return res.data;
 };
 
 export async function loadUser() {
-  const res = await fetch(`${API_URL}/api/users/me`, {
-    headers: {
-      ...getConfig(),
-    },
-  });
-  if (!res.ok) {
-    throw Error((await res.json()).message);
+  try {
+    const res = await axios.get(`${API_URL}/api/users/me`);
+    return res.data;
+  } catch (err: any) {
+    console.error(err.response?.data.message || err.message);
+    return err.response?.data.message || err.message;
   }
-  return res.json();
 }
