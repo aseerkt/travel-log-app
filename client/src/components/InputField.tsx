@@ -5,12 +5,14 @@ type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   name: string;
   textarea?: boolean;
+  helperText?: string;
 };
 
 const InputField: React.FC<InputFieldProps> = ({
   children,
   label,
   textarea = false,
+  helperText,
   ...props
 }) => {
   const [field, { error, touched }] = useField(props);
@@ -30,11 +32,11 @@ const InputField: React.FC<InputFieldProps> = ({
         {label}
       </label>
       {textarea ? (
-        <textarea rows={4} {...propsToSpread} {...field}></textarea>
+        <textarea rows={4} {...propsToSpread} {...field} />
       ) : (
         <input {...propsToSpread} {...field} />
       )}
-      <small></small>
+      {helperText && <small>{helperText}</small>}
       {touched && error && <small className='errorText'>{error}</small>}
     </div>
   );

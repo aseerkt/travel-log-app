@@ -49,13 +49,13 @@ export const addLog = async (
   next: NextFunction
 ) => {
   try {
+    console.log(req.body);
     const userId = res.locals.userId;
     const newLog = new LogEntry({ ...req.body, user: userId });
     const createdEntry = await newLog.save();
     return res.json(createdEntry);
   } catch (error) {
     console.log(error.name);
-    returnFormErrors(res, error);
-    return next(error);
+    return returnFormErrors(res, next, error);
   }
 };

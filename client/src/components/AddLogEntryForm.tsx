@@ -34,7 +34,8 @@ const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
             { ...values, latitude, longitude },
             {
               onSuccess: (data) => {
-                if (data.errors?.length) {
+                if (!!data.errors?.length) {
+                  console.log('made it here');
                   data.errors.forEach(({ path, message }) =>
                     action.setFieldError(path, message)
                   );
@@ -44,6 +45,7 @@ const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
                 queryClient.invalidateQueries('myLogs');
                 history.push(`/logs/${data._id}`);
               },
+              onError: (error) => {},
             }
           );
         } catch (err) {

@@ -66,7 +66,6 @@ export const registerUser = async (
     await user.save();
     return res.json({ ok: true });
   } catch (error) {
-    returnFormErrors(res, error);
-    return next(error);
+    return returnFormErrors(res, next, error);
   }
 };
