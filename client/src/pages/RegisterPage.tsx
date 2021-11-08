@@ -1,12 +1,10 @@
-import { Form, Formik, FormikProps } from 'formik';
-import { useEffect, useRef } from 'react';
+import { Form, Formik } from 'formik';
 import { useMutation } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import FormWrapper from '../components/FormWrapper';
 import InputField from '../components/InputField';
 import useFormikErrors from '../hooks/useFormikErrors';
 import { registerUser } from '../services/users';
-import getAxiosError from '../utils/getAxiosError';
 
 const RegisterPage = () => {
   const history = useHistory();

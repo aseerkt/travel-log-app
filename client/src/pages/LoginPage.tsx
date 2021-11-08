@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
