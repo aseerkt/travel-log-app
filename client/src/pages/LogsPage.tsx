@@ -9,9 +9,11 @@ import './LogsPage.css';
 const LogsPage = () => {
   const { data: meData } = useMeQuery();
   const { data, isLoading } = useFetchAllLogs();
+
   if (isLoading) {
     return <Loader info='Fetching public logs' />;
   }
+
   return (
     <div className='container public-logs-container'>
       <section className='logs-list'>
@@ -45,8 +47,8 @@ const LogsPage = () => {
             </article>
           ))
         ) : (
-          <div className='no-log-wrapper'>
-            <h3>No logs yet made public</h3>
+          <div className='card no-log-wrapper'>
+            <p>No logs yet made public</p>
             <Link to='/my-logs-map'>Add new log</Link>
           </div>
         )}

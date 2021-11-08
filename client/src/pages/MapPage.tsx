@@ -8,19 +8,11 @@ import MarkerPin from '../components/MarkerPin';
 import MapWrapper from '../components/MapWrapper';
 import AddLogEntryForm from '../components/AddLogEntryForm';
 import './MapPage.css';
+import { freezeMapSettings } from '../utils/freezeMapSettings';
 
 type Location = {
   longitude: number;
   latitude: number;
-};
-const freezeMapSettings = {
-  dragPan: false,
-  dragRotate: false,
-  scrollZoom: false,
-  touchZoom: false,
-  touchRotate: false,
-  keyboard: false,
-  doubleClickZoom: false,
 };
 
 const scrollToBottom = () => {
@@ -167,10 +159,12 @@ const MapPage = () => {
                 {!confirmLoc && <h3>Confirm Location</h3>}
                 <ul className='new-location-wrapper'>
                   <li>
-                    <strong>Latitude: </strong> {newLocation.latitude}
+                    <strong>Latitude: </strong>{' '}
+                    {Number(newLocation.latitude).toFixed(2)}
                   </li>
                   <li>
-                    <strong>Longitude: </strong> {newLocation.longitude}
+                    <strong>Longitude: </strong>{' '}
+                    {Number(newLocation.longitude).toFixed(2)}
                   </li>
                 </ul>
                 <button
@@ -196,7 +190,7 @@ const MapPage = () => {
           </>
         )}
         {confirmLoc && !isTab && newLocation && (
-          <div className={classNames('add-log-wrapper')}>
+          <div className='add-log-wrapper'>
             <div className='add-log-header'>
               <h2>Add Log</h2>
               <i

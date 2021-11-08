@@ -9,7 +9,7 @@ const Showcase = () => {
           trave<span style={{ color: 'yellow' }}>l-l</span>ogs.
         </span>{' '}
       </h1>
-      <p>Share your memories with us !</p>
+      <p>Share your journey with us !</p>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
 import './Header.css';
 import useMeQuery from '../hooks/queries/useMeQuery';
+import axios from 'axios';
 
 const Header = () => {
   const queryClient = useQueryClient();
@@ -20,10 +21,16 @@ const Header = () => {
           {data && !data.user ? (
             <ul>
               <li>
-                <Link to='/login'>Login</Link>
+                <Link to='/login'>
+                  <i className='fas fa-user'></i>
+                  Login
+                </Link>
               </li>
               <li>
-                <Link to='/register'>Register</Link>
+                <Link to='/register'>
+                  <i className='fas fa-user-plus'></i>
+                  Register
+                </Link>
               </li>
             </ul>
           ) : (
@@ -38,6 +45,9 @@ const Header = () => {
                 <button
                   onClick={() => {
                     localStorage.removeItem('jwt');
+                    axios.defaults.headers = {
+                      'Content-Type': 'application/json',
+                    };
                     queryClient.invalidateQueries('me');
                   }}
                 >

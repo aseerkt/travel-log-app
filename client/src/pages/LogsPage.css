@@ -2,7 +2,18 @@
   width: 100%;
   display: grid;
   grid-template-columns: 65% 35%;
-  gap: 1rem;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.public-logs-container section {
+  height: 100%;
+}
+
+.card {
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.25);
 }
 
 .log-article {
@@ -10,7 +21,7 @@
   border-radius: 0.5rem;
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.25);
   margin-bottom: 2rem;
-  min-height: 10rem;
+  height: 100%;
 }
 
 .log-article a {
@@ -39,10 +50,7 @@
 }
 
 .no-log-wrapper {
-  border: 2px solid #5858fc;
-  background-color: #e1e1ec;
-  border-radius: 0.4rem;
-  padding: 2rem;
+  height: 100%;
 }
 
 .no-log-wrapper a {

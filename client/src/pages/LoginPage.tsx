@@ -1,19 +1,25 @@
+import axios, { AxiosError } from 'axios';
 import { Form, Formik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import FormWrapper from '../components/FormWrapper';
 import InputField from '../components/InputField';
 import { useAuthDispatch } from '../context/AuthContext';
 import { loginUser } from '../services/users';
+import getAxiosError from '../utils/getAxiosError';
 import './LoginPage.css';
 
 const LoginPage = () => {
   const queryClient = useQueryClient();
-  const { mutateAsync } = useMutation(loginUser);
+  const { mutateAsync, error } = useMutation(loginUser);
   const [errMsg, setErrMsg] = useState('');
   const dispatch = useAuthDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    if (error) setErrMsg(getAxiosError(error).message);
+  }, [error]);
 
   return (
     <FormWrapper title='Login'>
@@ -23,12 +29,14 @@ const LoginPage = () => {
           setErrMsg('');
           const res = await mutateAsync(values);
           const { user, jwt } = res;
-          if (res.message) {
-            setErrMsg(res.message);
-          }
+
           if (user && jwt) {
             dispatch('LOGIN', user);
             localStorage.setItem('jwt', jwt);
+            axios.defaults.headers = {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${jwt}`,
+            };
             await queryClient.invalidateQueries('me');
             history.push('/');
           }
@@ -37,7 +45,14 @@ const LoginPage = () => {
         {({ isSubmitting, values: { username, password } }) => {
           return (
             <Form>
-              {!!errMsg && <small className='topError'>{errMsg}</small>}
+              {!!errMsg && (
+                <small className='topError'>
+                  {errMsg}
+                  <button onClick={() => setErrMsg('')}>
+                    <i className='fas fa-times'></i>
+                  </button>
+                </small>
+              )}
               <InputField label='Username' name='username' />
               <InputField type='password' label='Password' name='password' />
               <button

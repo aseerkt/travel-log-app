@@ -3,6 +3,18 @@
   color: #f00;
   font-weight: bold;
   padding: 1rem;
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 0.7rem;
+}
+
+.topError button {
+  padding: 0;
+  background: none;
+  color: #f00;
+}
+
+.topError button:active {
+  box-shadow: none;
 }

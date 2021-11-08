@@ -1,27 +1,27 @@
-import { Form, Formik } from 'formik';
+import { Form, Formik, FormikProps } from 'formik';
+import { useEffect, useRef } from 'react';
 import { useMutation } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import FormWrapper from '../components/FormWrapper';
 import InputField from '../components/InputField';
+import useFormikErrors from '../hooks/useFormikErrors';
 import { registerUser } from '../services/users';
+import getAxiosError from '../utils/getAxiosError';
 
 const RegisterPage = () => {
   const history = useHistory();
-  const { mutateAsync } = useMutation(registerUser);
+  const { mutateAsync, error } = useMutation(registerUser);
+  const { formikRef } = useFormikErrors(error);
+
   return (
     <FormWrapper title='Sign Up'>
       <Formik
+        innerRef={formikRef}
         initialValues={{ fullName: '', email: '', username: '', password: '' }}
         onSubmit={async (values, action) => {
           const res = await mutateAsync(values);
-          const { errors, ok } = res;
-          if (errors) {
-            (errors as [{ path: string; message: string }]).forEach(
-              ({ path, message }) => {
-                action.setFieldError(path, message);
-              }
-            );
-          } else if (ok) {
+          const { ok } = res;
+          if (ok) {
             history.push('/login');
           }
         }}

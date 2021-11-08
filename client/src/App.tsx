@@ -17,7 +17,7 @@ import { API_URL } from './config';
 
 axios.defaults.baseURL = `${API_URL}/api`;
 axios.defaults.headers = {
-  'Content-Type': 'applcation/json',
+  'Content-Type': 'application/json',
   authorization: `Bearer ${localStorage.getItem('jwt')}`,
 };
 

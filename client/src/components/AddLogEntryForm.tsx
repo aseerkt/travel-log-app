@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import useAddLogMutation from '../hooks/mutations/useAddLogMutation';
 import InputField from './InputField';
 import './AddLogEntryForm.css';
+import useFormikErrors from '../hooks/useFormikErrors';
 
 type AddLogEntryFormProps = {
   location: {
@@ -16,11 +17,14 @@ const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
   location: { latitude, longitude },
 }) => {
   const queryClient = useQueryClient();
-  const { mutateAsync } = useAddLogMutation();
+  const { mutateAsync, error } = useAddLogMutation();
   const history = useHistory();
+
+  const { formikRef } = useFormikErrors(error);
 
   return (
     <Formik
+      innerRef={formikRef}
       initialValues={{
         title: '',
         description: '',
@@ -66,7 +70,12 @@ const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
               max={5}
               label='Rating'
             />
-            <InputField type='date' name='visitDate' label='Visit Date' />
+            <InputField
+              type='date'
+              name='visitDate'
+              label='Visit Date'
+              max={new Date().toString()}
+            />
           </div>
           <button type='submit' disabled={isSubmitting}>
             Add Log

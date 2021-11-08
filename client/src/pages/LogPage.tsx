@@ -6,6 +6,7 @@ import MapWrapper from '../components/MapWrapper';
 import MarkerPin from '../components/MarkerPin';
 import Rating from '../components/Rating';
 import useFetchOneLog from '../hooks/queries/useFetchOneLog';
+import { freezeMapSettings } from '../utils/freezeMapSettings';
 
 import './LogPage.css';
 
@@ -59,6 +60,7 @@ const LogPage = () => {
               height: '100%',
             },
           }}
+          {...freezeMapSettings}
         >
           <Marker {...location}>
             <div>
