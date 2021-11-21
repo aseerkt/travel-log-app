@@ -8,7 +8,7 @@
     "server": "nodemon dist/server.js",
     "dev": "concurrently \"npx tsc -w\" \"yarn server\" -n tsc,server -c green,blue",
     "lint": "eslint src/",
-    "heroku-postbuild": "yarn tsc"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn tsc && yarn --cwd client && yarn --cwd client build"
   },
   "keywords": [],
   "author": "",

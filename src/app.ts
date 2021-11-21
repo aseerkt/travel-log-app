@@ -13,25 +13,29 @@ import notFound from './middlewares/notFound';
 // Routes
 import usersRoutes from './api/usersRoutes';
 import logsRoutes from './api/logsRoutes';
+import { PROD } from './constants';
+import path from 'path';
 
 const app = express();
 
 app.use(morgan('common'));
 app.use(helmet());
-app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN!,
-  })
-);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (_, res) =>
-  res.json({
-    message: 'Welcome to Travel Logs API!',
-  })
-);
-
+if (PROD) {
+  app.use(express.static('client/build'));
+  app.get('*', (_req, res) => {
+    res.sendFile(
+      path.resolve(__dirname, '..', 'client', 'build', 'index.html')
+    );
+  });
+} else
+  app.use(
+    cors({
+      origin: 'http://localhost:3000',
+    })
+  );
 // app.use(trim);
 
 app.use('/api/users', usersRoutes);
