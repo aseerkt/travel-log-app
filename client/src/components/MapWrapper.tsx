@@ -1,13 +1,5 @@
 import ReactMapGL from 'react-map-gl';
 import { InteractiveMapProps } from 'react-map-gl/src/components/interactive-map';
-// @ts-ignore
-import mapboxgl from 'mapbox-gl';
-// @ts-ignore
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import MapboxWorker from 'worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker';
-
-// @ts-ignore
-mapboxgl.workerClass = MapboxWorker;
 
 type LocationState = {
   latitude: number;
