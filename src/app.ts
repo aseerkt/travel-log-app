@@ -34,6 +34,9 @@ if (!PROD)
 app.use('/api/users', usersRoutes);
 app.use('/api/logs', logsRoutes);
 
+app.use(notFound);
+app.use(errorHandler);
+
 if (PROD) {
   app.use(express.static('client/build'));
   app.get('*', (_req, res) => {
@@ -42,8 +45,5 @@ if (PROD) {
     );
   });
 }
-
-app.use(notFound);
-app.use(errorHandler);
 
 export default app;
