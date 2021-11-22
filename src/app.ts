@@ -19,7 +19,7 @@ import path from 'path';
 const app = express();
 
 app.use(morgan('common'));
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
