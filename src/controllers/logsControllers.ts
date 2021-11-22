@@ -22,7 +22,7 @@ export const fetchAllLogs = async (
   next: NextFunction
 ) => {
   try {
-    const entries = await LogEntry.find();
+    const entries = await LogEntry.find().sort({ createdAt: -1 });
     return res.json(entries);
   } catch (error) {
     return next(error);
@@ -49,13 +49,30 @@ export const addLog = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.body);
-    const userId = res.locals.userId;
-    const newLog = new LogEntry({ ...req.body, user: userId });
+    const newLog = new LogEntry({ ...req.body, user: res.locals.userId });
     const createdEntry = await newLog.save();
     return res.json(createdEntry);
   } catch (error) {
     console.log(error.name);
+    return returnFormErrors(res, next, error);
+  }
+};
+
+export const deleteLog = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const deleteResult = await LogEntry.deleteOne({
+      _id: req.params.id,
+      user: res.locals.userId,
+    });
+    if (deleteResult?.deletedCount && deleteResult.deletedCount > 0) {
+      return res.json({ message: 'Log deleted successfully' });
+    }
+    return res.status(400).json({ message: 'Log delete failed' });
+  } catch (error) {
     return returnFormErrors(res, next, error);
   }
 };
