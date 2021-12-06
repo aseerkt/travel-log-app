@@ -1,20 +1,22 @@
 import { useEffect, useState } from 'react';
 import { Marker } from 'react-map-gl';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Loader from '../components/Loader';
 import MapWrapper from '../components/MapWrapper';
 import MarkerPin from '../components/MarkerPin';
 import Rating from '../components/Rating';
 import useDeleteLogMutation from '../hooks/mutations/useDeleteLogMutation';
 import useFetchOneLog from '../hooks/queries/useFetchOneLog';
+import useMeQuery from '../hooks/queries/useMeQuery';
 import { freezeMapSettings } from '../utils/freezeMapSettings';
 
 import './LogPage.css';
 
 const LogPage = () => {
-  const { id: logId } = useParams<{ id: string }>();
-  const { data, isLoading } = useFetchOneLog(logId);
-  const history = useHistory();
+  const { id } = useParams();
+  const { data, isLoading } = useFetchOneLog(id);
+  const navigate = useNavigate();
+  const { data: meData } = useMeQuery();
   const { mutateAsync: deleteLogAsync } = useDeleteLogMutation();
 
   const [location, setLocation] = useState({
@@ -54,18 +56,20 @@ const LogPage = () => {
         </p>
         <Rating rating={data.rating} />
         <div className='btn-group'>
-          <button
-            className='trash_btn'
-            onClick={() => {
-              deleteLogAsync(data?._id, {
-                onSuccess: () => {
-                  history.push('/');
-                },
-              });
-            }}
-          >
-            <i aria-label='delete log' className='fas fa-trash'></i>
-          </button>
+          {meData?.user._id === data.user && (
+            <button
+              className='trash_btn'
+              onClick={() => {
+                deleteLogAsync(data?._id, {
+                  onSuccess: () => {
+                    navigate('/');
+                  },
+                });
+              }}
+            >
+              <i aria-label='delete log' className='fas fa-trash'></i>
+            </button>
+          )}
         </div>
       </section>
       <section className='map-section'>

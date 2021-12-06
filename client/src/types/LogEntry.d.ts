@@ -6,6 +6,7 @@ export type LogEntry = {
   latitude: number;
   longitude: number;
   visitDate: string;
+  user?: string;
 };
 
 export type LogEntryDoc = LogEntry & { _id: string };

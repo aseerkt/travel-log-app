@@ -1,10 +1,10 @@
 import { Form, Formik } from 'formik';
 import { useQueryClient } from 'react-query';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useAddLogMutation from '../hooks/mutations/useAddLogMutation';
 import InputField from './InputField';
 import './AddLogEntryForm.css';
-import useFormikErrors from '../hooks/useFormikErrors';
+import handleFormikErrors from '../utils/handleFormikError';
 
 type AddLogEntryFormProps = {
   location: {
@@ -17,14 +17,11 @@ const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
   location: { latitude, longitude },
 }) => {
   const queryClient = useQueryClient();
-  const { mutateAsync, error } = useAddLogMutation();
-  const history = useHistory();
-
-  const { formikRef } = useFormikErrors(error);
+  const { mutateAsync } = useAddLogMutation();
+  const navigate = useNavigate();
 
   return (
     <Formik
-      innerRef={formikRef}
       initialValues={{
         title: '',
         description: '',
@@ -37,7 +34,7 @@ const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
           await mutateAsync(
             { ...values, latitude, longitude },
             {
-              onSuccess: (data) => {
+              onSuccess: async (data) => {
                 if (!!data.errors?.length) {
                   console.log('made it here');
                   data.errors.forEach(({ path, message }) =>
@@ -46,9 +43,10 @@ const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
                   return;
                 }
 
-                queryClient.invalidateQueries('myLogs');
-                history.push(`/logs/${data._id}`);
+                await queryClient.invalidateQueries('myLogs');
+                navigate(`/logs/${data._id}`);
               },
+              onError: (err) => handleFormikErrors(err, action),
             }
           );
         } catch (err) {

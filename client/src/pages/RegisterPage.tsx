@@ -1,27 +1,26 @@
 import { Form, Formik } from 'formik';
 import { useMutation } from 'react-query';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import FormWrapper from '../components/FormWrapper';
 import InputField from '../components/InputField';
-import useFormikErrors from '../hooks/useFormikErrors';
 import { registerUser } from '../services/users';
+import handleFormikErrors from '../utils/handleFormikError';
 
 const RegisterPage = () => {
-  const history = useHistory();
-  const { mutateAsync, error } = useMutation(registerUser);
-  const { formikRef } = useFormikErrors(error);
+  const navigate = useNavigate();
+  const { mutateAsync } = useMutation(registerUser);
 
   return (
     <FormWrapper title='Sign Up'>
       <Formik
-        innerRef={formikRef}
         initialValues={{ fullName: '', email: '', username: '', password: '' }}
         onSubmit={async (values, action) => {
-          const res = await mutateAsync(values);
-          const { ok } = res;
-          if (ok) {
-            history.push('/login');
-          }
+          await mutateAsync(values, {
+            onSuccess: (data) => {
+              if (data.ok) navigate('/login');
+            },
+            onError: (err) => handleFormikErrors(err, action),
+          });
         }}
       >
         {({

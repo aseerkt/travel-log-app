@@ -1,29 +1,14 @@
 import { useQuery } from 'react-query';
-import {
-  Redirect,
-  Route,
-  RouteComponentProps,
-  RouteProps,
-} from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import Loader from './components/Loader';
 import { loadUser } from './services/users';
 
-type PrivateRouteProps = RouteProps & {
-  component: React.FC<RouteComponentProps>;
-};
+const PrivateRoute: React.FC = ({ children }) => {
+  const { data, isLoading } = useQuery('me', loadUser);
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({
-  component: Component,
-  ...rest
-}) => {
-  const { data } = useQuery('me', loadUser);
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        data && data.user ? <Component {...props} /> : <Redirect to='/login' />
-      }
-    />
-  );
+  if (isLoading) return <Loader />;
+
+  return data && data.user ? <>{children}</> : <Navigate to='/login' />;
 };
 
 export default PrivateRoute;

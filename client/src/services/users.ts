@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { API_URL } from '../config';
 import { ResError } from '../types/Error';
-import { AuthResponse } from '../types/User';
+import { AuthResponse, UserDoc } from '../types/User';
 
 type LoginData = {
   username: string;
@@ -30,11 +30,8 @@ export const registerUser = async (registerData: RegisterData) => {
 };
 
 export async function loadUser() {
-  try {
-    const res = await axios.get(`${API_URL}/api/users/me`);
-    return res.data;
-  } catch (err: any) {
-    console.error(err.response?.data.message || err.message);
-    return err.response?.data.message || err.message;
-  }
+  const res = await axios.get<never, AxiosResponse<{ user: UserDoc }>>(
+    `${API_URL}/api/users/me`
+  );
+  return res.data;
 }

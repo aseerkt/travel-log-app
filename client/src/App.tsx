@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { Suspense, lazy } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './PrivateRoute';
 import Layout from './components/Layout';
 import { API_URL } from './config';
@@ -15,7 +14,6 @@ const MapPage = lazy(() => import('./pages/MapPage'));
 const LogsPage = lazy(() => import('./pages/LogsPage'));
 const LogPage = lazy(() => import('./pages/LogPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
-const AddLogPage = lazy(() => import('./pages/AddLogPage'));
 
 axios.defaults.baseURL = `${API_URL}/api`;
 axios.defaults.headers = {
@@ -30,24 +28,24 @@ const App = () => {
     <Suspense fallback={<Loader />}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <AuthProvider>
-            <Layout>
-              <Switch>
-                <Route exact path='/' component={LogsPage} />
-                <Route exact path='/logs/:id' component={LogPage} />
-                <Route exact path='/login' component={LoginPage} />
-                <PrivateRoute exact path='/my-logs-map' component={MapPage} />
-                <PrivateRoute
-                  exact
-                  path='/add-log?lat=:latitude&long=:longitude'
-                  component={AddLogPage}
-                />
-                <Route exact path='/u/:userId' component={ProfilePage} />
-                <Route exact path='/register' component={RegisterPage} />
-              </Switch>
-              <ReactQueryDevtools initialIsOpen />
-            </Layout>
-          </AuthProvider>
+          <Layout>
+            <Routes>
+              <Route path='/' element={<LogsPage />} />
+              <Route path='/logs/:id' element={<LogPage />} />
+              <Route path='/login' element={<LoginPage />} />
+              <Route
+                path='/my-logs-map'
+                element={
+                  <PrivateRoute>
+                    <MapPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route path='/u/:userId' element={<ProfilePage />} />
+              <Route path='/register' element={<RegisterPage />} />
+            </Routes>
+            <ReactQueryDevtools initialIsOpen />
+          </Layout>
         </BrowserRouter>
       </QueryClientProvider>
     </Suspense>
