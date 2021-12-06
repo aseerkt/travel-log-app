@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import FormWrapper from '../components/FormWrapper';
 import InputField from '../components/InputField';
 import { useAuthDispatch } from '../context/AuthContext';
@@ -42,7 +42,7 @@ const LoginPage = () => {
           }
         }}
       >
-        {({ isSubmitting, values: { username, password } }) => {
+        {({ isSubmitting, values: { username, password }, setFieldValue }) => {
           return (
             <Form>
               {!!errMsg && (
@@ -55,16 +55,30 @@ const LoginPage = () => {
               )}
               <InputField label='Username' name='username' />
               <InputField type='password' label='Password' name='password' />
-              <button
-                type='submit'
-                disabled={isSubmitting || !username || !password}
-              >
-                Login
-              </button>
+              <div className='btn-group'>
+                <button
+                  type='submit'
+                  disabled={isSubmitting || !username || !password}
+                >
+                  Login
+                </button>
+                <button
+                  type='button'
+                  onClick={() => {
+                    setFieldValue('username', 'bob');
+                    setFieldValue('password', 'bob123');
+                  }}
+                >
+                  Load test credentials
+                </button>
+              </div>
             </Form>
           );
         }}
       </Formik>
+      <small>
+        Don't have an account? <Link to='/register'>Sign up</Link>
+      </small>
     </FormWrapper>
   );
 };
