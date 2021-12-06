@@ -6,3 +6,11 @@
   background-color: #fff;
   padding: 2rem;
 }
+
+.form-wrapper a {
+  color: black;
+}
+
+.form-wrapper form {
+  margin-bottom: 1rem;
+}

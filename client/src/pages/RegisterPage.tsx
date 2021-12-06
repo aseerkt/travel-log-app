@@ -1,6 +1,6 @@
 import { Form, Formik } from 'formik';
 import { useMutation } from 'react-query';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import FormWrapper from '../components/FormWrapper';
 import InputField from '../components/InputField';
 import useFormikErrors from '../hooks/useFormikErrors';
@@ -44,6 +44,9 @@ const RegisterPage = () => {
           </Form>
         )}
       </Formik>
+      <small>
+        Already have an account? <Link to='/login'>Login</Link>
+      </small>
     </FormWrapper>
   );
 };
