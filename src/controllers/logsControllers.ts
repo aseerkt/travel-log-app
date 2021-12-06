@@ -64,10 +64,12 @@ export const deleteLog = async (
   next: NextFunction
 ) => {
   try {
+    console.log(req.params.id, res.locals.userId);
     const deleteResult = await LogEntry.deleteOne({
       _id: req.params.id,
       user: res.locals.userId,
     });
+    console.log(deleteResult);
     if (deleteResult?.deletedCount && deleteResult.deletedCount > 0) {
       return res.json({ message: 'Log deleted successfully' });
     }

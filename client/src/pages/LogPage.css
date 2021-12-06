@@ -22,3 +22,13 @@
     grid-template-columns: 1fr;
   }
 }
+
+.btn-group {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 0.9rem;
+}
+
+.btn-group .trash_btn {
+  background-color: rgb(158, 2, 2);
+}

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   addLog,
+  deleteLog,
   fetchAllLogs,
   fetchMyLogs,
   fetchOneLog,
@@ -9,10 +10,11 @@ import isAuth from '../middlewares/isAuth';
 
 const router = Router();
 
-router.get('/', isAuth, fetchMyLogs);
+router.get('/me', isAuth, fetchMyLogs);
 router.post('/', isAuth, addLog);
 
 router.get('/all', fetchAllLogs);
-router.get('/one/:id', fetchOneLog);
+router.get('/:id', fetchOneLog);
+router.delete('/:id', isAuth, deleteLog);
 
 export default router;

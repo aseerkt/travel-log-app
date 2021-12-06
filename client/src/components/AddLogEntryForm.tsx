@@ -49,7 +49,6 @@ const AddLogEntryForm: React.FC<AddLogEntryFormProps> = ({
                 queryClient.invalidateQueries('myLogs');
                 history.push(`/logs/${data._id}`);
               },
-              onError: (error) => {},
             }
           );
         } catch (err) {
