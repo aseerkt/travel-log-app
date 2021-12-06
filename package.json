@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "start": "node dist/server.js",
-    "server": "nodemon dist/server.js",
+    "server": "nodemon dist/server.js --ignore client",
     "dev": "concurrently \"npx tsc -w\" \"yarn server\" -n tsc,server -c green,blue",
     "lint": "eslint src/",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn tsc && yarn --cwd client && yarn --cwd client build"
