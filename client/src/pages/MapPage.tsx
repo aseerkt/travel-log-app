@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MapEvent, Marker, Popup } from 'react-map-gl';
 import classNames from 'classnames';
 import useMedia from 'use-media';
@@ -90,45 +90,38 @@ const MapPage = () => {
         // Freeze map after confirming the location
         {...(confirmLoc && freezeMapSettings)}
       >
-        {logEntries &&
-          logEntries.map((entry) => (
-            <>
-              <Marker
-                key={entry._id}
+        {logEntries?.map((entry) => (
+          <React.Fragment key={entry._id}>
+            <Marker latitude={entry.latitude} longitude={entry.longitude}>
+              <div
+                onClick={() => {
+                  setShowPopup({ [entry._id]: true });
+                }}
+              >
+                <MarkerPin markerSize={location.zoom} />
+              </div>
+            </Marker>
+            {showPopup[entry._id] && (
+              <Popup
                 latitude={entry.latitude}
                 longitude={entry.longitude}
+                closeButton={true}
+                closeOnClick={false}
+                onClose={() => setShowPopup({})}
+                dynamicPosition={true}
+                anchor='top'
               >
-                <div
-                  onClick={() => {
-                    setShowPopup({ [entry._id]: true });
-                  }}
-                >
-                  <MarkerPin markerSize={location.zoom} />
+                <div className='popup'>
+                  <h3>{entry.title}</h3>
+                  <p>{entry.comments}</p>
+                  <small>
+                    Visited on: {new Date(entry.visitDate).toLocaleDateString()}
+                  </small>
                 </div>
-              </Marker>
-              {showPopup[entry._id] && (
-                <Popup
-                  key={entry.latitude + entry.longitude}
-                  latitude={entry.latitude}
-                  longitude={entry.longitude}
-                  closeButton={true}
-                  closeOnClick={false}
-                  onClose={() => setShowPopup({})}
-                  dynamicPosition={true}
-                  anchor='top'
-                >
-                  <div className='popup'>
-                    <h3>{entry.title}</h3>
-                    <p>{entry.comments}</p>
-                    <small>
-                      Visited on:{' '}
-                      {new Date(entry.visitDate).toLocaleDateString()}
-                    </small>
-                  </div>
-                </Popup>
-              )}
-            </>
-          ))}
+              </Popup>
+            )}
+          </React.Fragment>
+        ))}
         {newLocation && (
           <>
             <Marker
