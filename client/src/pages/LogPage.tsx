@@ -49,14 +49,21 @@ const LogPage = () => {
       <section className='detail-section'>
         <h1>{data?.title}</h1>
         <p>{data?.description}</p>
-        <p>{data?.comments}</p>
-        <p>Visited on {new Date(data?.visitDate).toLocaleDateString()}</p>
+        <div className='flex-ic'>
+          <i className='fas fa-quote-left'></i>
+          <p>{data?.comments}</p>
+        </div>
         <p>
-          <strong>Author rating:</strong>
+          Visited by <span className='log-user'>{data?.user?.fullName}</span> on{' '}
+          {new Date(data?.visitDate).toLocaleDateString('en-IN', {
+            month: 'short',
+            day: '2-digit',
+            year: 'numeric',
+          })}
         </p>
         <Rating rating={data.rating} />
         <div className='btn-group'>
-          {meData?.user._id === data.user && (
+          {meData?.user?._id === data.user?._id && (
             <button
               className='trash_btn'
               onClick={() => {

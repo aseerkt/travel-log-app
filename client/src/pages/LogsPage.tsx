@@ -28,7 +28,7 @@ const LogsPage = () => {
                   {entry.comments ? entry.comments : <small>No comments</small>}
                 </span>
               </blockquote>
-              <p className='flex-2'>
+              <p className='desc'>
                 <span>
                   {entry.description ? (
                     entry.description
@@ -37,10 +37,7 @@ const LogsPage = () => {
                   )}
                 </span>
               </p>
-              <small>
-                <strong>Author Rating:</strong>
-                <Rating rating={entry.rating} />
-              </small>
+              <Rating rating={entry.rating} />
             </article>
           ))
         ) : (

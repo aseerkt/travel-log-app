@@ -24,7 +24,7 @@ export const getCurrentUser = async (
 ) => {
   try {
     const { userId } = res.locals;
-    const user = await User.findById(userId).select('-password');
+    const user = await User.findById(userId).select('+email');
     return res.json({ user });
   } catch (err) {
     console.log(err);
@@ -39,7 +39,7 @@ export const loginUser = async (
 ) => {
   const { username, password } = req.body;
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).select('+password');
     if (!user) {
       return res.status(400).json({ message: 'User not found' });
     }
@@ -48,7 +48,7 @@ export const loginUser = async (
     }
     const jwt = setToken(user);
     const userToReturn = user.toJSON();
-    return res.json({ user: userToReturn, jwt });
+    return res.json({ user: { ...userToReturn, password: undefined }, jwt });
   } catch (error) {
     console.log(error);
     return next(error);

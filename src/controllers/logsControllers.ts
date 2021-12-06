@@ -22,7 +22,9 @@ export const fetchAllLogs = async (
   next: NextFunction
 ) => {
   try {
-    const entries = await LogEntry.find().sort({ createdAt: -1 });
+    const entries = await LogEntry.find()
+      .sort({ createdAt: -1 })
+      .populate('user');
     return res.json(entries);
   } catch (error) {
     return next(error);
@@ -36,7 +38,7 @@ export const fetchOneLog = async (
 ) => {
   try {
     const { id } = req.params;
-    const entries = await LogEntry.findById(id);
+    const entries = await LogEntry.findById(id).populate('user');
     return res.json(entries);
   } catch (error) {
     return next(error);

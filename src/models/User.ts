@@ -27,9 +27,11 @@ const UserSchema = new mongoose.Schema<IUser>(
       type: String,
       required: [true, 'Email is required'],
       unique: true,
+      select: false,
       validate: {
         validator: function (value: string) {
-          const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          const re =
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return re.test(String(value).toLowerCase());
         },
         message: 'Invalid Email Address',
@@ -39,6 +41,7 @@ const UserSchema = new mongoose.Schema<IUser>(
       type: String,
       required: [true, 'Password is required'],
       minlength: [6, 'Password must be at least 6 characters long'],
+      select: false,
     },
   },
   { timestamps: true }

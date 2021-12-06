@@ -18,13 +18,12 @@
 }
 
 .log-article a {
-  width: max-content;
   color: #111;
+  width: max-content;
 }
 
 .log-article a h2 {
   margin-top: 0;
-  width: max-content;
   margin-bottom: 1rem;
 }
 
