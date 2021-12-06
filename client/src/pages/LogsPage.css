@@ -1,41 +1,36 @@
-.public-logs-container {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 65% 35%;
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-.public-logs-container section {
-  height: 100%;
-}
-
 .card {
   padding: 2rem;
   border-radius: 0.5rem;
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.25);
 }
 
+.logs-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
 .log-article {
   padding: 2rem;
   border-radius: 0.5rem;
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.25);
-  margin-bottom: 2rem;
   height: 100%;
-  max-height: 300px;
 }
 
 .log-article a {
+  width: max-content;
   color: #111;
 }
 
 .log-article a h2 {
-  margin: 0;
+  margin-top: 0;
+  width: max-content;
   margin-bottom: 1rem;
 }
 
 .log-article blockquote {
   margin-left: 0;
+  opacity: 0.8;
 }
 
 .log-article .flex-2 {
